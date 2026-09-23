@@ -29,5 +29,16 @@
 - สร้าง tasks.md สำหรับฟีเจอร์จองคิวตรวจสุขภาพแบบแยกงานย่อยตามลำดับพึ่งพา
 - ครอบคลุม AC ทั้ง 6 ข้อ และ Constraint ทั้ง 5 ข้อ ในตารางตรวจความครบ
 - มี task 11 รายการและไม่มี task ที่รอ Q-xx เนื่องจาก Open Question ที่เหลือไม่ได้เกี่ยวข้องกับงานที่ต้องเริ่มทันที
-
 ---
+
+## 2026-09-23 00:00 คำสั่ง: /implement T-01 specs/001-booking/tasks.md
+
+- เครื่องมือ: Copilot ใน Codespaces
+- ไฟล์ที่สร้าง/แก้: backend/app/config.py, backend/app/db/models.py, backend/app/db/session.py, backend/app/db/migrations/001_init.py, backend/tests/test_T01_schema.py
+- ผล test: pytest tests/test_T01_schema.py -q -> 1 passed in 0.44s
+- สิ่งที่เกือบต้องเดาแต่ถามแทน: ไม่มี เพราะ task T-01 ไม่มี Open Question และ spec/plan ให้ข้อมูลครบสำหรับ schema และ migration
+
+### สรุปผล
+- สร้าง schema สำหรับ slots, bookings, audit_logs ตามข้อกำหนด PostgreSQL และให้ทำงานร่วมกับ SQLite ในหน่วยความจำสำหรับการทดสอบ
+- ระบุคอลัมน์ที่ต้องมีตาม constraint อย่างชัดเจน เช่น ไม่มี national_id ใน bookings และมี actor_id, accessed_at ใน audit_logs
+- สร้าง test ที่ตรวจว่าตารางและคอลัมน์พื้นฐานถูกสร้างจริง---
