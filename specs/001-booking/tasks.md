@@ -20,7 +20,7 @@ Spec ID: SPEC-BKG-001
 - ไฟล์ที่แตะ: backend/app/auth/idp.py, backend/app/slots/router.py, backend/app/slots/service.py, backend/app/main.py
 - ต้องทำหลัง: T-01
 - เสร็จเมื่อ: GET /slots คืนช่วงเวลาที่ว่างพร้อม remaining ภายใต้ auth guard และผล load test ย่อส่วนแสดง p95 ไม่เกิน 2 วินาทีที่ 200 คน
-- สถานะ: พร้อมทำ
+- สถานะ: เสร็จ รอทีมตรวจ
 
 ### T-03 สร้าง API จองคิวพื้นฐาน
 - รองรับ: FR-BKG-04
