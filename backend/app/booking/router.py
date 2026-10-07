@@ -29,6 +29,25 @@ def create_booking(req: BookingRequest, hn: str = Depends(get_verified_hn), db: 
         raise HTTPException(status_code=409, detail="ช่วงเวลาเต็ม")
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
+
+    service.record_booking_access(db, actor_id=hn, hn=hn)
     return {"booking_id": booking.id, "slot_id": booking.slot_id, "queue_no": booking.queue_no}
+
+
+@router.get("/bookings/{booking_id}")
+def get_booking(booking_id: int, hn: str = Depends(get_verified_hn), db: Session = Depends(get_db)):
+    """อ่านข้อมูลการจองของผู้รับบริการที่ยืนยันตัวตนแล้วและบันทึก audit log"""
+    try:
+        booking = service.get_booking(db, booking_id, hn)
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+
+    service.record_booking_access(db, actor_id=hn, hn=booking.hn)
+    return {
+        "booking_id": booking.id,
+        "slot_id": booking.slot_id,
+        "queue_no": booking.queue_no,
+        "status": booking.status,
+    }
 
 
