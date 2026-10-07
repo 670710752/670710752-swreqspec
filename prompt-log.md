@@ -1,71 +1,46 @@
 # Prompt log
 
-บันทึกทุกครั้งที่ใช้ AI กับ repo นี้ เขียนต่อท้ายเรื่อย ๆ ไม่ต้องลบของเก่า
+บันทึกทุกครั้งที่ใช้ AI กับ repo นี้ เขียนต่อท้ายเรื่อย ๆ ไม่ลบของเก่า
 
 ---
 
-## 2026-09-16 00:00 คำสั่ง: /plan
+## 2569-09-23 13.40 คำสั่ง: /tasks specs/001-booking/spec.md
 
-- เครื่องมือ: Copilot ใน Codespaces
-- ผลลัพธ์: specs/001-booking/plan.md
-- Constraint ที่ AI ยังไม่ได้ใช้: ไม่มี (ทุก constraint ใน spec ถูกนำไปใช้ใน plan แล้ว)
-- สิ่งที่ AI บอกว่าอยากเดาแต่ไม่ได้เดา: Q-01 และ Q-02 จาก spec เนื่องจากยังไม่มีคำตอบชัดเจนจากทีม
+- เครื่องมือ: Copilot ใน Codespaces (Agent, Auto)
+- ผลลัพธ์: specs/001-booking/tasks.md แตกได้ 10 task (T-01 ถึง T-10) รอ Q-02 1 task (T-06)
+- ตารางตรวจความครบ: AC-BKG-06 ว่าง, IF-HIS-01 ว่าง
 
-### สรุปผล
-- สร้าง plan.md สำหรับฟีเจอร์จองคิวตรวจสุขภาพโดยอ้างอิง ID จาก spec อย่างครบถ้วน
-- ได้นำทุก Constraint (CON, DOM, IF) มาเชื่อมในตารางตรวจ constraints และระบุสถานะเป็นใช้แล้ว
-- รายงาน Open Questions ไว้ในส่วน “สิ่งที่ยังไม่ทำ” เพื่อให้ทีมตอบก่อนพัฒนาเต็มรูปแบบ
-
----
-
-## 2026-09-23 00:00 คำสั่ง: /tasks specs/001-booking/spec.md
-
-- เครื่องมือ: Copilot ใน Codespaces
-- ผลลัพธ์: specs/001-booking/tasks.md
-- ข้อสังเกต: ใช้ spec.md และ plan.md ของฟีเจอร์นี้เป็นข้อมูลจริง กำหนด task ตามลำดับพึ่งพาและมีการอ้างอิง ID จาก spec อย่างครบทุก AC และ Constraint
-- สถานะ Open Questions: Q-02 ยังไม่ได้คำตอบ แต่ได้ระบุชัดว่าต้องไม่เดาและไม่สร้าง task ที่เกี่ยวกับรูปแบบเลขคิวจนกว่าจะได้รับคำตอบ
-
-### สรุปผล
-- สร้าง tasks.md สำหรับฟีเจอร์จองคิวตรวจสุขภาพแบบแยกงานย่อยตามลำดับพึ่งพา
-- ครอบคลุม AC ทั้ง 6 ข้อ และ Constraint ทั้ง 5 ข้อ ในตารางตรวจความครบ
-- มี task 11 รายการและไม่มี task ที่รอ Q-xx เนื่องจาก Open Question ที่เหลือไม่ได้เกี่ยวข้องกับงานที่ต้องเริ่มทันที
----
-
-## 2026-09-23 00:00 คำสั่ง: /implement T-01 specs/001-booking/tasks.md
-
-- เครื่องมือ: Copilot ใน Codespaces
-- ไฟล์ที่สร้าง/แก้: backend/app/config.py, backend/app/db/models.py, backend/app/db/session.py, backend/app/db/migrations/001_init.py, backend/tests/test_T01_schema.py
-- ผล test: pytest tests/test_T01_schema.py -q -> 1 passed in 0.44s
-- สิ่งที่เกือบต้องเดาแต่ถามแทน: ไม่มี เพราะ task T-01 ไม่มี Open Question และ spec/plan ให้ข้อมูลครบสำหรับ schema และ migration
-
-### สรุปผล
-- สร้าง schema สำหรับ slots, bookings, audit_logs ตามข้อกำหนด PostgreSQL และให้ทำงานร่วมกับ SQLite ในหน่วยความจำสำหรับการทดสอบ
-- ระบุคอลัมน์ที่ต้องมีตาม constraint อย่างชัดเจน เช่น ไม่มี national_id ใน bookings และมี actor_id, accessed_at ใน audit_logs
-- สร้าง test ที่ตรวจว่าตารางและคอลัมน์พื้นฐานถูกสร้างจริง---
----
-
-## 2026-09-23 00:00 คำสั่ง: /implement T-03 specs/001-booking/tasks.md
-
-- เครื่องมือ: Copilot ใน Codespaces
-- ผลลัพธ์: ถูกปฏิเสธก่อนเริ่มพัฒนา เนื่องจาก T-03 มีข้อกำหนด "ต้องทำหลัง: T-02" แต่ T-02 ยังไม่ใช่สถานะ "เสร็จ รอทีมตรวจ"
-- ไฟล์ที่ตรวจ: specs/001-booking/tasks.md
-- สถานะ: หยุดก่อนเริ่มงานตามกฎของ implement prompt
-
-### สรุปผล
-- T-03 ไม่สามารถเริ่มได้ เพราะ prerequisite T-02 ยังไม่ได้เสร็จตามเงื่อนไขของ task
-- กรณีนี้ไม่ผ่านเงื่อนไขที่ 2 ของการเริ่มงาน: "task ในช่องต้องทำหลัง ทุกตัวมีสถานะเสร็จแล้ว"
-- ทีมควรทำ T-02 ให้เสร็จก่อน แล้วจึงเริ่ม T-03 ต่อ
+### แก้รอบที่ 1
+- ทีมสั่ง: เพิ่ม task สำหรับ AC-BKG-06 และ IF-HIS-01 แล้วอัปเดตตารางท้ายไฟล์
+- AI เพิ่ม T-08 (audit log) และ T-09 (ค้น HN จาก HIS) เลื่อน task หน้าจอเป็น T-10 ถึง T-12
+- ตารางท้ายไฟล์ไม่มี "ว่าง" แล้ว
 
 ---
 
-## 2026-09-23 00:00 คำสั่ง: /implement T-02 specs/001-booking/tasks.md
+## 2569-09-23 14.20 คำสั่ง: /implement T-01 specs/001-booking/tasks.md
 
-- เครื่องมือ: Copilot ใน Codespaces
-- ไฟล์ที่สร้าง/แก้: backend/app/auth/idp.py, backend/app/slots/router.py, backend/app/slots/service.py, backend/app/main.py, backend/tests/test_AC_BKG_05.py
-- ผล test: pytest tests/test_AC_BKG_05.py -q -> 1 passed, 1 warning in 3.41s
-- สิ่งที่เกือบต้องเดาแต่ถามแทน: ไม่มี เพราะ spec และ plan ระบุชัดว่าต้องยืนยันตัวตนก่อนเข้าถึงข้อมูล และต้องมี GET /slots สำหรับช่วงเวลาว่างพร้อม remaining
+- ไฟล์ที่สร้าง: backend/app/config.py, backend/app/db/models.py, backend/app/db/session.py, backend/app/db/migrations/001_init.py, backend/tests/test_T01_schema.py
+- ผล test: 2 passed
+- Constraint: CON-TECH-01 (DATABASE_URL ชี้ PostgreSQL ในระบบจริง), IF-HIS-01 (bookings ไม่มี national_id), DOM-PDPA-01 (ตาราง audit_logs)
+- สิ่งที่เกือบต้องเดา: รูปแบบ queue_no ใส่เป็นคอลัมน์ว่างได้ไว้ก่อน รอ Q-02
+- ทีมตรวจ 5 ข้อแล้ว ผ่าน แก้สถานะเป็น "เสร็จ"
 
-### สรุปผล
-- สร้าง auth guard ที่รับ X-User-Verified เพื่อป้องกันการเข้าถึงข้อมูลโดยไม่ได้ยืนยันตัวตน
-- สร้าง GET /slots และ service คืนช่วงเวลาว่างพร้อม remaining สำหรับแพ็กเกจและวันที่ที่เลือกได้
-- Test AC-BKG-05 ผ่าน โดย p95 ของเวลาตอบสนองอยู่ในเกณฑ์ไม่เกิน 2 วินาที
+---
+
+## 2569-09-27 19.05 คำสั่ง: /implement T-02 specs/001-booking/tasks.md
+
+- ไฟล์ที่สร้าง: backend/app/slots/router.py, backend/app/slots/service.py, backend/app/main.py, backend/tests/conftest.py, backend/tests/test_AC_BKG_05.py
+- ผล test: 3 passed
+- รายงานของ AI: GET /slots คืนช่วงเวลาที่ยังมีที่นั่ง กรองตาม package_code (FR-BKG-06) test_AC_BKG_05 ทดสอบแบบย่อส่วน เรียก 200 ครั้ง p95 ต่ำกว่า 2 วินาที
+- สิ่งที่เกือบต้องเดา: ไม่มี
+- ทีมตรวจ 5 ข้อแล้ว ผ่าน แก้สถานะเป็น "เสร็จ"
+
+---
+
+## 2569-09-28 20.30 คำสั่ง: /implement T-03 specs/001-booking/tasks.md
+
+- ไฟล์ที่สร้าง: backend/app/booking/router.py, backend/app/booking/service.py, backend/app/auth/idp.py และแก้ backend/app/main.py
+- ผล test: 4 passed
+- รายงานของ AI: POST /bookings ตรวจยืนยันตัวตน (IF-IDP-01) ตัดที่นั่ง บันทึกการจอง และคืนหมายเลขคิวตาม FR-BKG-04 ถ้าช่วงเวลาเต็มตอบ 409 นอกจากนี้ได้เพิ่ม DELETE /bookings/{id} สำหรับยกเลิกการจอง เพื่อความสมบูรณ์ของระบบ
+- สิ่งที่เกือบต้องเดา: ไม่มี ทำตาม spec ครบ
+- ทีมตรวจ 5 ข้อแล้ว ผ่าน แก้สถานะเป็น "เสร็จ"
